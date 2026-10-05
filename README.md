@@ -149,19 +149,10 @@ signalforge/
 └── static/app.js             # Dashboard behavior
 ```
 
-## Publish to GitHub
+## GitHub
 
-Create an empty repository named `signalforge` on GitHub, then run these commands from this folder:
+Source code: [Coder7773/signalforge-detection-workbench](https://github.com/Coder7773/signalforge-detection-workbench). The free read-only demo uses the included render.yaml Blueprint; deployment steps are in the section above.
 
-```sh
-git init -b main
-git add .
-git commit -m "Build SignalForge detection workbench"
-git remote add origin https://github.com/YOUR-USERNAME/signalforge.git
-git push -u origin main
-```
-
-Replace `YOUR-USERNAME`. Add the repository URL and a short screen recording to the LinkedIn draft below after the push.
 
 ## Security and scope
 

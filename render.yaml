@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: signalforge-demo
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    envVars:
+      - key: SIGNALFORGE_DB
+        value: /tmp/signalforge.db
+      - key: SIGNALFORGE_READ_ONLY
+        value: "true"

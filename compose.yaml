@@ -1,0 +1,21 @@
+services:
+  signalforge:
+    build: .
+    ports:
+      - "127.0.0.1:8080:8080"
+    environment:
+      SIGNALFORGE_DB: /data/signalforge.db
+      SIGNALFORGE_READ_ONLY: "true"
+    volumes:
+      - signalforge-data:/data
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  signalforge-data:

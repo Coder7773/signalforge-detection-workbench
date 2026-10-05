@@ -1,4 +1,5 @@
 import json
+import socket
 import sys
 import tempfile
 import threading
@@ -229,13 +230,16 @@ class SignalForgeTests(unittest.TestCase):
         self.assertEqual((second["stored"], second["duplicates"], second["alerts_total"]), (0, 5, 1))
 
     def test_http_rejects_body_over_limit(self):
-        request = Request(
-            self.base_url + "/api/ingest", data=b" " * (app.MAX_BODY + 1),
-            headers={"Content-Type": "application/json"}, method="POST",
-        )
-        with self.assertRaises(HTTPError) as caught:
-            urlopen(request)
-        self.assertEqual(caught.exception.code, 400)
+        with socket.create_connection(("127.0.0.1", self.server.server_port), timeout=5) as conn:
+            conn.sendall((
+                f"POST /api/ingest HTTP/1.1\r\n"
+                f"Host: 127.0.0.1:{self.server.server_port}\r\n"
+                f"Content-Length: {app.MAX_BODY + 1}\r\n"
+                "Content-Type: application/json\r\n"
+                "Connection: close\r\n\r\n"
+            ).encode("ascii"))
+            with conn.makefile("rb") as response:
+                self.assertIn(b" 400 ", response.readline())
 
     def test_rejects_missing_required_fields(self):
         with self.assertRaisesRegex(ValueError, "event_type and host are required"):

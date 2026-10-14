@@ -1,4 +1,4 @@
-FROM python:3.12-slim
+FROM python:3.14-slim
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 SIGNALFORGE_DB=/data/signalforge.db SIGNALFORGE_READ_ONLY=true
 WORKDIR /app
 COPY app.py ./app.py
